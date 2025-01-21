@@ -1,0 +1,12 @@
+{
+  "headers": {
+    "/**": {
+      "Access-Control-Allow-Origin": "*"
+    }
+  },
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": {
+    "/**": "/index.html"
+  }
+}
