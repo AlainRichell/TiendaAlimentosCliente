@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, Router, RouterOutlet } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ViewportScroller } from '@angular/common';
 import { routes } from './app/app.routes';
 import { NavbarComponent } from './app/components/navbar/navbar.component';
 import { FooterComponent } from './app/components/footer/footer.component';
+import { AuthInterceptor } from './app/core/services/auth.interceptor';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ import { FooterComponent } from './app/components/footer/footer.component';
   `,
 })
 export class App {
-  name = 'Style Boutique';
+  name = 'Gustare';
 
   private router = inject(Router);
   private viewportScroller = inject(ViewportScroller);
@@ -38,6 +39,6 @@ export class App {
 bootstrapApplication(App, {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([AuthInterceptor]))
   ],
 }).catch(err => console.error(err));

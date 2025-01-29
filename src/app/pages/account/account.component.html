@@ -1,0 +1,157 @@
+<div class="max-w-3xl mx-auto p-8 bg-white rounded-xl shadow-lg my-24">
+  <h1 class="text-3xl font-bold text-gray-800 text-center">Configuración de Cuenta</h1>
+
+  <!-- Sección de Información Principal -->
+  <div class="p-6 rounded-lg mb-6 transition-all duration-200">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold text-gray-700">Información Personal</h2>
+      <button
+        type="button"
+        class="btn btn-primary flex items-center justify-center"
+        *ngIf="!isEditing"
+        (click)="enableEditing()"
+      >
+        <span>Editar</span>
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="userForm" (ngSubmit)="saveChanges()" class="space-y-6">
+      <!-- Correo Electrónico -->
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-2">Correo Electrónico</label>
+        <input
+          type="email"
+          formControlName="email"
+          class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50"
+          [disabled] = "true"
+        />
+      </div>
+
+      <!-- Nombre Completo -->
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-2">Nombre Completo</label>
+        <input
+          type="text"
+          formControlName="first_name"
+          class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50"
+          [disabled]="!isEditing"
+        />
+        <p *ngIf="getFieldError('first_name')" class="text-red-500 text-sm mt-1">
+          {{ getFieldError("first_name") }}
+        </p>
+      </div>
+
+      <!-- Teléfono -->
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-2">Teléfono</label>
+        <input
+          type="text"
+          formControlName="phone"
+          class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50"
+          [disabled]="!isEditing"
+        />
+        <p *ngIf="getFieldError('phone')" class="text-red-500 text-sm mt-1">
+          {{ getFieldError("phone") }}
+        </p>
+      </div>
+
+      <!-- Dirección -->
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-2">Dirección</label>
+        <textarea
+          formControlName="address"
+          class="w-full px-4 py-2 min-h-12 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50"
+          [disabled]="!isEditing"
+        ></textarea>
+        <p *ngIf="getFieldError('address')" class="text-red-500 text-sm mt-1">
+          {{ getFieldError("address") }}
+        </p>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div *ngIf="isEditing" class="flex justify-end space-x-4 pt-2">
+        <button
+          type="button"
+          class="btn"
+          (click)="cancelEditing()"
+        >
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">
+          Guardar Cambios
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200"></div>
+
+  <!-- Sección de Seguridad -->
+  <div class="p-6 rounded-lg transition-all duration-200">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold text-gray-700">Seguridad</h2>
+      <button
+        *ngIf="!isChangingPassword"
+        class="btn btn-primary flex items-center justify-center"
+        (click)="isChangingPassword = true"
+      >
+        <span>Cambiar Contraseña</span>
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+        </svg>
+      </button>
+    </div>
+
+    <form 
+      *ngIf="isChangingPassword"
+      [formGroup]="passwordForm" 
+      (ngSubmit)="changePassword()" 
+      class="space-y-6 animate-fade-in"
+    >
+      <!-- Nueva Contraseña -->
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-2">Nueva Contraseña</label>
+        <input
+          type="password"
+          formControlName="newPassword"
+          class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50"
+          placeholder="Nueva contraseña"
+        />
+        <p *ngIf="getPasswordFieldError('newPassword')" class="text-red-500 text-sm mt-1">
+          {{ getPasswordFieldError("newPassword") }}
+        </p>
+      </div>
+
+      <!-- Confirmar Contraseña -->
+      <div>
+        <label class="block text-sm font-medium text-gray-600 mb-2">Confirmar Contraseña</label>
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50"
+          placeholder="Repite tu nueva contraseña"
+        />
+        <p *ngIf="getPasswordFieldError('confirmPassword')" class="text-red-500 text-sm mt-1">
+          {{ getPasswordFieldError("confirmPassword") }}
+        </p>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="flex justify-end space-x-4 pt-6">
+        <button
+          type="button"
+          class="btn-outline-gray"
+          (click)="isChangingPassword = false"
+        >
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">
+          Confirmar Cambio
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

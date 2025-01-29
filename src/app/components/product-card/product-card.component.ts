@@ -59,7 +59,7 @@ import { CartService } from '../../core/services/cart.service';
 export class ProductCardComponent {
   @Input() product!: Product;
   showAddedNotification = false;
-  private fallbackImage = 'assets/images/placeholder.jpg';
+  private fallbackImage = 'assets/placeholder.png';
   isDescriptionExpanded = false;
 
   constructor(private cartService: CartService) {}

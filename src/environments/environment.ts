@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://alainrichell.pythonanywhere.com/api',
+  apiUrl: 'http://localhost:8000/api',
   wanumber: '5356952466'
 };

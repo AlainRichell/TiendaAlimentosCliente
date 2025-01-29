@@ -19,7 +19,7 @@ import { QuantityControlComponent } from '../../shared/components/quantity-contr
       [class.translate-x-full]="!isOpen">
       <div class="h-full flex flex-col">
         <div class="p-4 border-b flex justify-between items-center bg-primary text-white">
-          <h2 class="text-xl font-montserrat font-semibold">Mis compras</h2>
+          <h2 class="text-xl font-montserrat font-semibold">Carrito de compras</h2>
           <button (click)="close()" class="hover:text-accent">
             <span class="material-icons">close</span>
           </button>
@@ -77,7 +77,7 @@ import { QuantityControlComponent } from '../../shared/components/quantity-contr
 })
 export class CartSidebarComponent {
   isOpen = false;
-  private fallbackImage = 'assets/images/placeholder.jpg';
+  private fallbackImage = 'assets/placeholder.png';
 
   constructor(public cartService: CartService) {}
 
