@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PedidoService {
   private apiUrl = `${environment.apiUrl}`; // Ajusta la URL de tu API
@@ -24,8 +24,11 @@ export class PedidoService {
   }
 
   generateFactura(pedidoId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/pedidos/${pedidoId}/generate-factura/`, {
-      responseType: 'blob', // Para manejar la descarga de archivos
-    });
+    return this.http.get(
+      `${this.apiUrl}/pedidos/${pedidoId}/generate-factura/`,
+      {
+        responseType: "blob", // Para manejar la descarga de archivos
+      }
+    );
   }
 }

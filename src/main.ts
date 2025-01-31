@@ -1,15 +1,15 @@
-import { Component, inject } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, Router, RouterOutlet } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ViewportScroller } from '@angular/common';
-import { routes } from './app/app.routes';
-import { NavbarComponent } from './app/components/navbar/navbar.component';
-import { FooterComponent } from './app/components/footer/footer.component';
-import { AuthInterceptor } from './app/core/services/auth.interceptor';
+import { Component, inject } from "@angular/core";
+import { bootstrapApplication } from "@angular/platform-browser";
+import { provideRouter, Router, RouterOutlet } from "@angular/router";
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
+import { ViewportScroller } from "@angular/common";
+import { routes } from "./app/app.routes";
+import { NavbarComponent } from "./app/components/navbar/navbar.component";
+import { FooterComponent } from "./app/components/footer/footer.component";
+import { AuthInterceptor } from "./app/core/services/auth.interceptor";
 
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, FooterComponent],
   template: `
@@ -23,7 +23,7 @@ import { AuthInterceptor } from './app/core/services/auth.interceptor';
   `,
 })
 export class App {
-  name = 'Gustare';
+  name = "Gustare";
 
   private router = inject(Router);
   private viewportScroller = inject(ViewportScroller);
@@ -39,6 +39,6 @@ export class App {
 bootstrapApplication(App, {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([AuthInterceptor]))
+    provideHttpClient(withInterceptors([AuthInterceptor])),
   ],
-}).catch(err => console.error(err));
+}).catch((err) => console.error(err));

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'; // Importa Validators
-import { UserService } from '../../core/services/user.service';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms"; // Importa Validators
+import { UserService } from "../../core/services/user.service";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @Component({
-  selector: 'app-account',
-  templateUrl: './account.component.html',
+  selector: "app-account",
+  templateUrl: "./account.component.html",
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
 })
@@ -18,34 +18,34 @@ export class AccountComponent implements OnInit {
   isChangingPassword: boolean = false; // Estado para mostrar/ocultar el formulario de cambio de contraseña
 
   constructor(private userService: UserService, private fb: FormBuilder) {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
     this.userId = currentUser?.user_id || null;
-    
+
     // Añadir validaciones
     this.userForm = this.fb.group({
-      username: [{ value: '', disabled: true }], // Campo deshabilitado
-      email: [{ value: '', disabled: true }], // Campo deshabilitado
+      username: [{ value: "", disabled: true }], // Campo deshabilitado
+      email: [{ value: "", disabled: true }], // Campo deshabilitado
       first_name: [
-        '',
+        "",
         [
           Validators.required,
           Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/), // Validación: solo letras, espacios, tildes y ñ
         ],
       ],
       phone: [
-        '',
+        "",
         [
           Validators.required,
           Validators.minLength(8), // Mínimo 8 caracteres
           Validators.pattern(/^[0-9]+$/), // Solo números
         ],
       ],
-      address: ['', [Validators.required, Validators.minLength(5)]],
+      address: ["", [Validators.required, Validators.minLength(5)]],
     });
 
     this.passwordForm = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
+      newPassword: ["", [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ["", [Validators.required]],
     });
   }
 
@@ -55,7 +55,7 @@ export class AccountComponent implements OnInit {
   }
 
   getUserId() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
     this.userId = currentUser?.user_id || null;
   }
 
@@ -72,19 +72,19 @@ export class AccountComponent implements OnInit {
           });
         },
         error: (err) => {
-          console.error('Error al cargar los datos del usuario:', err);
+          console.error("Error al cargar los datos del usuario:", err);
         },
       });
     } else {
-      console.error('User ID no encontrado en localStorage');
+      console.error("User ID no encontrado en localStorage");
     }
   }
 
   enableEditing() {
     this.isEditing = true;
     this.userForm.enable(); // Habilitar todos los campos
-    this.userForm.controls['username'].disable(); // Re-deshabilitar username
-    this.userForm.controls['email'].disable(); // Re-deshabilitar email
+    this.userForm.controls["username"].disable(); // Re-deshabilitar username
+    this.userForm.controls["email"].disable(); // Re-deshabilitar email
   }
 
   cancelEditing() {
@@ -106,14 +106,14 @@ export class AccountComponent implements OnInit {
       this.userService.updateUser(this.userId, updatedData).subscribe({
         next: () => {
           this.isEditing = false;
-          alert('Datos actualizados con éxito');
+          alert("Datos actualizados con éxito");
         },
         error: (err) => {
-          console.error('Error al actualizar los datos:', err);
+          console.error("Error al actualizar los datos:", err);
         },
       });
     } else {
-      alert('Por favor, corrige los errores antes de guardar.');
+      alert("Por favor, corrige los errores antes de guardar.");
     }
   }
 
@@ -121,14 +121,14 @@ export class AccountComponent implements OnInit {
   getFieldError(field: string): string | null {
     const control = this.userForm.get(field);
     if (control?.touched || this.isEditing) {
-      if (control?.hasError('required')) return 'Este campo es obligatorio.';
-      if (control?.hasError('minlength'))
-        return `Debe tener al menos ${
-          control.errors?.['minlength'].requiredLength
-        } caracteres.`;
-      if (control?.hasError('pattern')) {
-        if (field === 'first_name') return 'El nombre solo puede contener letras.';
-        if (field === 'phone') return 'El teléfono solo puede contener números.';
+      if (control?.hasError("required")) return "Este campo es obligatorio.";
+      if (control?.hasError("minlength"))
+        return `Debe tener al menos ${control.errors?.["minlength"].requiredLength} caracteres.`;
+      if (control?.hasError("pattern")) {
+        if (field === "first_name")
+          return "El nombre solo puede contener letras.";
+        if (field === "phone")
+          return "El teléfono solo puede contener números.";
       }
     }
     return null;
@@ -137,36 +137,37 @@ export class AccountComponent implements OnInit {
   changePassword() {
     // Marcar todos los campos como "touched" para mostrar errores
     this.passwordForm.markAllAsTouched();
-  
+
     if (this.passwordForm.valid) {
       const { newPassword, confirmPassword } = this.passwordForm.value;
-  
+
       if (newPassword !== confirmPassword) {
-        alert('Las contraseñas no coinciden.');
+        alert("Las contraseñas no coinciden.");
         return;
       }
-  
+
       // Llamada al servicio para actualizar la contraseña
       this.userService.changePassword(this.userId, newPassword).subscribe({
         next: () => {
-          alert('Contraseña actualizada con éxito');
+          alert("Contraseña actualizada con éxito");
           this.isChangingPassword = false; // Ocultar el formulario después del cambio
           this.passwordForm.reset(); // Limpiar el formulario
         },
         error: (err) => {
-          console.error('Error al cambiar la contraseña:', err);
+          console.error("Error al cambiar la contraseña:", err);
         },
       });
     } else {
-      alert('Por favor, corrige los errores en el formulario.');
+      alert("Por favor, corrige los errores en el formulario.");
     }
   }
 
   getPasswordFieldError(field: string): string | null {
     const control = this.passwordForm.get(field);
     if (control?.touched && control.invalid) {
-      if (control.hasError('required')) return 'Este campo es obligatorio.';
-      if (control.hasError('minlength')) return 'La contraseña debe tener al menos 6 caracteres.';
+      if (control.hasError("required")) return "Este campo es obligatorio.";
+      if (control.hasError("minlength"))
+        return "La contraseña debe tener al menos 6 caracteres.";
     }
     return null;
   }

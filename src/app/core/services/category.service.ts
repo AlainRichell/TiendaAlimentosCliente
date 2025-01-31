@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { Category } from '../models/category.model';
-import { ApiService } from './api.service';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+import { Category } from "../models/category.model";
+import { ApiService } from "./api.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class CategoryService {
   private categories$ = new BehaviorSubject<Category[]>([]);
@@ -17,12 +17,15 @@ export class CategoryService {
 
   private loadCategories() {
     this.loading$.next(true);
-    this.apiService.getCategories().pipe(
-      tap(categories => {
-        this.categories$.next(categories);
-        this.loading$.next(false);
-      })
-    ).subscribe();
+    this.apiService
+      .getCategories()
+      .pipe(
+        tap((categories) => {
+          this.categories$.next(categories);
+          this.loading$.next(false);
+        })
+      )
+      .subscribe();
   }
 
   getCategories(): Observable<Category[]> {

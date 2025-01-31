@@ -1,4 +1,4 @@
-import { Category } from './category.model';
+import { Category } from "./category.model";
 
 export interface Product {
   idproducto: number;
@@ -21,16 +21,6 @@ export interface ProductImage {
 export interface CartItem {
   product: Product;
   quantity: number;
-}
-
-export interface Order {
-  id: number;
-  userId: number;
-  items: CartItem[];
-  total: number;
-  status: 'pending' | 'paid' | 'cancelled' | 'delivered';
-  paymentMethod: 'enzona' | 'transfermovil' | 'cash';
-  createdAt: Date;
 }
 
 export interface User {

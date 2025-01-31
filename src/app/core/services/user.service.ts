@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserService {
   private apiUrl = `${environment.apiUrl}/user`;
@@ -13,8 +13,8 @@ export class UserService {
 
   // Obtener token desde localStorage
   private getAuthHeaders(): HttpHeaders {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    const token = currentUser?.token || '';
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+    const token = currentUser?.token || "";
     return new HttpHeaders({
       Authorization: `token ${token}`,
     });
@@ -33,7 +33,7 @@ export class UserService {
     const url = `${this.apiUrl}/${userId}/`; // Agregar userId a la URL
     return this.http.put(url, data, { headers });
   }
-  
+
   changePassword(userId: number, newPassword: string): Observable<any> {
     const headers = this.getAuthHeaders();
     const url = `${this.apiUrl}/${userId}/change-password/`; // Endpoint para cambiar la contraseña
