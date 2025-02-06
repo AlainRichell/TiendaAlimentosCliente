@@ -85,7 +85,7 @@
               (click)="realizarPedido()"
               [disabled]="reservando || productosConError.length > 0"
             >
-              <span *ngIf="!reservando">Hacer el pedido</span>
+              <span *ngIf="!reservando">Pagos</span>
               <span *ngIf="reservando">Procesando...</span>
             </button>
           </div>
