@@ -105,5 +105,11 @@
   </div>
 </nav>
 
+<div
+  *ngIf="isMenuOpen"
+  class="fixed inset-0 bg-black bg-opacity-50 z-30"
+  (click)="toggleMenu()"
+></div>
+
 <app-cart-sidebar #cartSidebar></app-cart-sidebar>
 <app-sesion-sidebar #sesionSidebar></app-sesion-sidebar>

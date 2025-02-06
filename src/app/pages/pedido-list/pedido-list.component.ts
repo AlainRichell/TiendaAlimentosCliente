@@ -41,12 +41,14 @@ export class PedidoListComponent implements OnInit {
     });
   }
 
+  // En pedido-list.component.ts
   loadPedidos(userId: number): void {
     this.pedidoService.getPedidosByUser(userId).subscribe({
-      next: (data: Pedido[]) => {
-        this.pedidos = data.map((pedido: Pedido) => ({
+      next: (data: any) => {
+        this.pedidos = data.map((pedido: any) => ({
           ...pedido,
-          fecha: new Date(pedido.fecha + "Z"), // Agrega 'Z' para indicar que es UTC
+          fecha: new Date(pedido.fecha),
+          pedido_productos: pedido.productos, // Mapear la respuesta del API
         }));
       },
       error: (error) => console.error("Error cargando pedidos:", error),
@@ -91,6 +93,22 @@ export class PedidoListComponent implements OnInit {
       error: (error) => console.error("Error generando factura:", error),
     });
   }
+
+  getEstadoIcon(idtipopedido: number): string {
+    const estado = this.getEstadoPedido(idtipopedido);
+    switch (estado) {
+      case "Entregado":
+        return "check_circle";
+      case "Pendiente":
+        return "schedule";
+      case "Cancelado":
+        return "cancel";
+      case "Enviado":
+        return "local_shipping";
+      default:
+        return "info";
+    }
+  }
 }
 
 interface Pedido {
@@ -99,9 +117,10 @@ interface Pedido {
   idtipopedido: number;
   fecha: Date;
   pedido_productos: {
-    producto: string;
+    producto_id: number;
+    producto_nombre: string; // Nuevo campo
     cantidad: number;
   }[];
   transacciones: number[];
-  estado?: string; // Propiedad opcional para el texto del estado
+  estado?: string;
 }

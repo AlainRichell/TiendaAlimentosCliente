@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { CartService } from "../../core/services/cart.service";
 import { CommonModule } from "@angular/common";
@@ -39,5 +39,26 @@ export class NavbarComponent {
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+    if (this.isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }
+
+  // Escucha clics globales en el documento
+  @HostListener("document:click", ["$event"])
+  onClickOutside(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+
+    // Verifica si el clic ocurrió fuera del menú móvil
+    const navbarElement = document.querySelector("nav");
+    if (
+      this.isMenuOpen &&
+      navbarElement &&
+      !navbarElement.contains(targetElement)
+    ) {
+      this.isMenuOpen = false; // Cierra el menú
+    }
   }
 }

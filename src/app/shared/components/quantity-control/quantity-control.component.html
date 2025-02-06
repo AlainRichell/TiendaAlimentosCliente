@@ -1,9 +1,9 @@
 <div class="flex items-center space-x-2">
   <button
     (click)="decrease()"
-    [disabled]="quantity <= 1"
+    [disabled]="disabled || quantity <= 1"
     class="w-8 h-8 flex items-center justify-center rounded-full bg-accent text-white hover:bg-secondary"
-    [class.opacity-50]="quantity <= 1"
+    [class.opacity-50]="disabled || quantity <= 1"
   >
     <span class="material-icons text-sm">remove</span>
   </button>
@@ -12,9 +12,9 @@
 
   <button
     (click)="increase()"
-    [disabled]="quantity >= max"
+    [disabled]="disabled || quantity >= max"
     class="w-8 h-8 flex items-center justify-center rounded-full bg-accent text-white hover:bg-secondary"
-    [class.opacity-50]="quantity >= max"
+    [class.opacity-50]="disabled || quantity >= max"
   >
     <span class="material-icons text-sm">add</span>
   </button>

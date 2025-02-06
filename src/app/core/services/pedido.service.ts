@@ -12,7 +12,9 @@ export class PedidoService {
   constructor(private http: HttpClient) {}
 
   getPedidosByUser(userId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/${userId}/pedidos/`);
+    return this.http.get(
+      `${this.apiUrl}/user/${userId}/pedidos/?expand=productos,transacciones`
+    );
   }
 
   cancelPedido(userId: number, pedidoId: number): Observable<any> {

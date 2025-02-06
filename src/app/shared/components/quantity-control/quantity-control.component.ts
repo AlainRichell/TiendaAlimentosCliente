@@ -10,16 +10,17 @@ import { CommonModule } from "@angular/common";
 export class QuantityControlComponent {
   @Input() quantity: number = 1;
   @Input() max: number = Infinity;
+  @Input() disabled: boolean = false; // Nuevo input
   @Output() quantityChange = new EventEmitter<number>();
 
   decrease() {
-    if (this.quantity > 1) {
+    if (!this.disabled && this.quantity > 1) {
       this.quantityChange.emit(this.quantity - 1);
     }
   }
 
   increase() {
-    if (this.quantity < this.max) {
+    if (!this.disabled && this.quantity < this.max) {
       this.quantityChange.emit(this.quantity + 1);
     }
   }

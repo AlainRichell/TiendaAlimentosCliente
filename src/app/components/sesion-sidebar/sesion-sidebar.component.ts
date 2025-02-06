@@ -16,14 +16,29 @@ export class SesionSidebarComponent {
 
   open() {
     this.isOpen = true;
+    this.disableBodyScroll();
   }
 
   close() {
     this.isOpen = false;
+    this.enableBodyScroll();
   }
 
   toggle() {
     this.isOpen = !this.isOpen;
+    if (this.isOpen) {
+      this.disableBodyScroll();
+    } else {
+      this.enableBodyScroll();
+    }
+  }
+
+  private disableBodyScroll() {
+    document.body.style.overflow = "hidden";
+  }
+
+  private enableBodyScroll() {
+    document.body.style.overflow = "";
   }
 
   logout() {

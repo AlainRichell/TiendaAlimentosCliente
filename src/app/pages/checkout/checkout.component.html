@@ -1,0 +1,108 @@
+<div class="container mx-auto p-6 max-w-2xl">
+  <h1 class="text-2xl font-bold mb-6">Finalizar Compra</h1>
+
+  <div *ngIf="items.length === 0" class="text-center py-8">
+    <p class="text-gray-600 mb-4">No hay productos en el carrito</p>
+    <a routerLink="/products" class="btn btn-primary">Volver a la tienda</a>
+  </div>
+
+  <div *ngIf="items.length > 0">
+    <!-- Resumen del pedido -->
+    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-4">Resumen del Pedido</h2>
+      <div *ngFor="let item of items" class="mb-2">
+        <div class="flex justify-between">
+          <span>{{ item.nombre }} x{{ item.cartQuantity }}</span>
+          <span>{{ item.precio * item.cartQuantity | currency }}</span>
+        </div>
+      </div>
+      <div class="border-t mt-4 pt-4">
+        <div class="flex justify-between font-semibold">
+          <span>Total:</span>
+          <span>{{ total | currency }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulario de pago -->
+    <form
+      [formGroup]="paymentForm"
+      (ngSubmit)="submitOrder()"
+      class="bg-white rounded-lg shadow-md p-4"
+    >
+      <h2 class="text-lg font-semibold mb-4">Método de Pago</h2>
+
+      <div class="space-y-4">
+        <!-- Opción de Transfermovil -->
+        <div class="border rounded p-4 opacity-50 cursor-not-allowed">
+          <label class="flex items-center space-x-2">
+            <input
+              type="radio"
+              formControlName="paymentMethod"
+              value="transfer"
+              class="form-radio"
+              (click)="preventTransferSelection($event)"
+            />
+            <!-- Remover evento click para habilitar pago transfermovil-->
+            <span class="font-medium text-gray-500">
+              Pago con Transfermovil
+              <span class="text-sm ml-2">(No disponible temporalmente)</span>
+            </span>
+          </label>
+
+          <div
+            *ngIf="paymentMethod?.value === 'transfer'"
+            class="mt-4 space-y-4"
+          >
+            <div class="border p-4 rounded bg-gray-50">
+              <!-- Simulación de pasarela de pago -->
+              <p class="text-sm text-gray-600 mb-4">
+                Serás redirigido a la plataforma de pago seguro de Transfermovil
+              </p>
+
+              <div class="form-group">
+                <label>Referencia de transferencia</label>
+                <input
+                  type="text"
+                  formControlName="transferReference"
+                  class="form-input mt-1 block w-full"
+                  placeholder="Ingrese referencia"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opción de efectivo -->
+        <div class="border rounded p-4">
+          <label class="flex items-center space-x-2">
+            <input
+              type="radio"
+              formControlName="paymentMethod"
+              value="cash"
+              class="form-radio"
+            />
+            <span class="font-medium">Pago en efectivo al recibir</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Botón de confirmación -->
+      <div class="mt-6">
+        <button
+          type="submit"
+          class="btn btn-primary w-full"
+          [disabled]="paymentForm.invalid || loading"
+        >
+          <span *ngIf="!loading">Confirmar Pedido</span>
+          <span *ngIf="loading">Procesando...</span>
+        </button>
+      </div>
+
+      <!-- Mensajes de error -->
+      <div *ngIf="error" class="mt-4 text-red-500 text-sm">
+        {{ error }}
+      </div>
+    </form>
+  </div>
+</div>
